@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.exceptions.handlers;
+package com.liro.consultations.exceptions.handlers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

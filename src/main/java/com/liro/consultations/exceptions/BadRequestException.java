@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.exceptions;
+package com.liro.consultations.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

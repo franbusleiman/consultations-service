@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.exceptions.handlers;
+package com.liro.consultations.exceptions.handlers;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;

@@ -1,12 +1,12 @@
-package main.java.com.liro.consultations.service;
+package com.liro.consultations.service;
 
-import main.java.com.liro.consultations.config.FeignAnimalClient;
-import main.java.com.liro.consultations.dtos.ConsultationDTO;
-import main.java.com.liro.consultations.dtos.mappers.ConsultationMapper;
-import main.java.com.liro.consultations.dtos.responses.ConsultationResponse;
-import main.java.com.liro.consultations.exceptions.BadRequestException;
-import main.java.com.liro.consultations.model.dbentities.Consultation;
-import main.java.com.liro.consultations.repositories.ConsultationRepository;
+import com.liro.consultations.repositories.ConsultationRepository;
+import com.liro.consultations.config.FeignAnimalClient;
+import com.liro.consultations.dtos.ConsultationDTO;
+import com.liro.consultations.dtos.mappers.ConsultationMapper;
+import com.liro.consultations.dtos.responses.ConsultationResponse;
+import com.liro.consultations.exceptions.BadRequestException;
+import com.liro.consultations.model.dbentities.Consultation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-import static main.java.com.liro.consultations.util.Util.updateIfNotNull;
+import static com.liro.consultations.util.Util.updateIfNotNull;
 
 @Service
 public class ConsultationServiceImpl implements ConsultationService {

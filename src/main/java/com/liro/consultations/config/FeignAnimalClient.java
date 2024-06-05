@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.config;
+package com.liro.consultations.config;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

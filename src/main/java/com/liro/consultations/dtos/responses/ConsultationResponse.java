@@ -1,12 +1,12 @@
-package main.java.com.liro.consultations.dtos.responses;
+package com.liro.consultations.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import main.java.com.liro.consultations.dtos.ConsultationDTO;
-import main.java.com.liro.consultations.model.enums.ConsultationType;
+import com.liro.consultations.dtos.ConsultationDTO;
+import com.liro.consultations.model.enums.ConsultationType;
 
 
 @NoArgsConstructor

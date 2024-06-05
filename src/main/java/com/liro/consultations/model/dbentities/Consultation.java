@@ -1,7 +1,7 @@
-package main.java.com.liro.consultations.model.dbentities;
+package com.liro.consultations.model.dbentities;
 
 import lombok.*;
-import main.java.com.liro.consultations.model.enums.ConsultationType;
+import com.liro.consultations.model.enums.ConsultationType;
 
 import javax.persistence.*;
 import java.time.LocalDate;

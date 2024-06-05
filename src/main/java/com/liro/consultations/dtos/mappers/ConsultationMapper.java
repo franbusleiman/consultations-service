@@ -1,7 +1,7 @@
-package main.java.com.liro.consultations.dtos.mappers;
-import main.java.com.liro.consultations.dtos.ConsultationDTO;
-import main.java.com.liro.consultations.dtos.responses.ConsultationResponse;
-import main.java.com.liro.consultations.model.dbentities.Consultation;
+package com.liro.consultations.dtos.mappers;
+import com.liro.consultations.dtos.ConsultationDTO;
+import com.liro.consultations.dtos.responses.ConsultationResponse;
+import com.liro.consultations.model.dbentities.Consultation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

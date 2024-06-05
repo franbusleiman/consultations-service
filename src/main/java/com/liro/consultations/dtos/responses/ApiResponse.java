@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.dtos.responses;
+package com.liro.consultations.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

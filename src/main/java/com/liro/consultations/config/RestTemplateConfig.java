@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.config;
+package com.liro.consultations.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +57,7 @@ public class RestTemplateConfig {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("main.java.com.liro.consultations"))
+                .apis(RequestHandlerSelectors.basePackage("com.liro.consultations"))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Collections.singletonList(securitySchema()))

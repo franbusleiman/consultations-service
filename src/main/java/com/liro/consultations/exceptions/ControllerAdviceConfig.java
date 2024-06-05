@@ -1,4 +1,4 @@
-package main.java.com.liro.consultations.exceptions;
+package com.liro.consultations.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;

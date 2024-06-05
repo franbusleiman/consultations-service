@@ -1,8 +1,8 @@
-package main.java.com.liro.consultations.service;
+package com.liro.consultations.service;
 
-import main.java.com.liro.consultations.dtos.ConsultationDTO;
-import main.java.com.liro.consultations.dtos.UserDTO;
-import main.java.com.liro.consultations.dtos.responses.ConsultationResponse;
+import com.liro.consultations.dtos.ConsultationDTO;
+import com.liro.consultations.dtos.UserDTO;
+import com.liro.consultations.dtos.responses.ConsultationResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

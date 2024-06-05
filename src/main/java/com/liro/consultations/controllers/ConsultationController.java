@@ -1,9 +1,9 @@
-package main.java.com.liro.consultations.controllers;
+package com.liro.consultations.controllers;
 
-import main.java.com.liro.consultations.dtos.ConsultationDTO;
-import main.java.com.liro.consultations.dtos.responses.ApiResponse;
-import main.java.com.liro.consultations.dtos.responses.ConsultationResponse;
-import main.java.com.liro.consultations.service.ConsultationService;
+import com.liro.consultations.dtos.ConsultationDTO;
+import com.liro.consultations.dtos.responses.ApiResponse;
+import com.liro.consultations.dtos.responses.ConsultationResponse;
+import com.liro.consultations.service.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-import static main.java.com.liro.consultations.util.Util.getUser;
+import static com.liro.consultations.util.Util.getUser;
 
 @RestController
 @RequestMapping("/consultations")

@@ -1,6 +1,6 @@
-package main.java.com.liro.consultations.repositories;
+package com.liro.consultations.repositories;
 
-import main.java.com.liro.consultations.model.dbentities.Consultation;
+import com.liro.consultations.model.dbentities.Consultation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

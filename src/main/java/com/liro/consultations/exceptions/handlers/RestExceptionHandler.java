@@ -1,10 +1,10 @@
-package main.java.com.liro.consultations.exceptions.handlers;
+package com.liro.consultations.exceptions.handlers;
 
 
-import main.java.com.liro.consultations.exceptions.BadRequestException;
-import main.java.com.liro.consultations.exceptions.ConflictException;
-import main.java.com.liro.consultations.exceptions.ResourceNotFoundException;
-import main.java.com.liro.consultations.exceptions.UnauthorizedException;
+import com.liro.consultations.exceptions.BadRequestException;
+import com.liro.consultations.exceptions.ConflictException;
+import com.liro.consultations.exceptions.ResourceNotFoundException;
+import com.liro.consultations.exceptions.UnauthorizedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;

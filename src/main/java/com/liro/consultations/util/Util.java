@@ -1,9 +1,9 @@
-package main.java.com.liro.consultations.util;
+package com.liro.consultations.util;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import main.java.com.liro.consultations.dtos.UserDTO;
+import com.liro.consultations.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

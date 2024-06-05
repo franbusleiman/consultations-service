@@ -57,7 +57,7 @@ public class RestTemplateConfig {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.liro.consultations"))
+                .apis(RequestHandlerSelectors.basePackage("main.java.com.liro.consultations"))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Collections.singletonList(securitySchema()))

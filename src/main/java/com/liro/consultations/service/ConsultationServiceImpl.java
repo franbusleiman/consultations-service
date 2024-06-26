@@ -74,13 +74,13 @@ public class ConsultationServiceImpl implements ConsultationService {
 
             consultation.setLocalDate(LocalDate.now());
 
-            RecordDTO recordDTO = new RecordDTO();
-            recordDTO.setDate(LocalDateTime.now());
-            recordDTO.setDataString("Weight: " + consultationDTO.getWeight());
-            recordDTO.setRecordTypeId(3L);
-            recordDTO.setDetails(consultationDTO.getDetails());
-            recordDTO.setAnimalId(consultationDTO.getAnimalId());
-
+            RecordDTO recordDTO = RecordDTO.builder()
+                    .date(LocalDateTime.now())
+                    .dataString("Weight: " + consultationDTO.getWeight())
+                    .recordTypeId(3L)
+                    .details(consultationDTO.getDetails())
+                    .animalId(consultationDTO.getAnimalId())
+                    .build();
 
             feignAnimalClient.createRecord(recordDTO, token);
 

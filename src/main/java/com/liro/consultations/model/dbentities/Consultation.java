@@ -17,6 +17,7 @@ public class Consultation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String details;
     private String title;

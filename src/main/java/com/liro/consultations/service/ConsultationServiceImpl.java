@@ -101,8 +101,8 @@ public class ConsultationServiceImpl implements ConsultationService {
             Consultation consultation = consultationRepository.findById(consultationId)
                     .orElseThrow(()-> new BadRequestException("Consultation not found"));
 
-            updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
-            updateIfNotNull(consultation::setDetails, consultationDto.getDetails());
+           // updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
+            // updateIfNotNull(consultation::setDetails, consultationDto.getDetails());
 
             consultationRepository.save(consultation);
         } else throw new BadRequestException("User has no permissions on animal");

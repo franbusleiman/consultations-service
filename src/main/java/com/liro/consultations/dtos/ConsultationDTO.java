@@ -16,8 +16,6 @@ public class ConsultationDTO {
 
     private String details;
     private Long animalId;
-    private Long petClinicBranchId;
-    private ConsultationType consultationType;
     private String title;
     private String amnsesis;
     private String clinicalExamination;

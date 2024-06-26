@@ -17,9 +17,7 @@ public class Consultation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-    private String details;
     private String title;
     private String amnsesis;
     private String clinicalExamination;
@@ -31,12 +29,6 @@ public class Consultation {
     @Column(nullable = false)
     private LocalDate localDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ConsultationType consultationType;
-
     @Column(nullable = false)
     private Long animalId;
-
-    private Long petClinicBranchId;
 }

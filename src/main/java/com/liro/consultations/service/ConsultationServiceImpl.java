@@ -101,7 +101,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             Consultation consultation = consultationRepository.findById(consultationId)
                     .orElseThrow(()-> new BadRequestException("Consultation not found"));
 
-           // updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
+            // updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
             // updateIfNotNull(consultation::setDetails, consultationDto.getDetails());
 
             consultationRepository.save(consultation);

@@ -24,6 +24,7 @@ public class FlyWayConfig {
         DataSource dataSource = new DriverManagerDataSource(dataSourceUrl, dataSourceUsername, dataSourcePassword);
         return Flyway.configure()
                 .dataSource(dataSource)
+                .baselineOnMigrate(true)
                 .locations("classpath:db/migration")
                 .load();
     }

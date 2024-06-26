@@ -1,3 +1,9 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+# Ignorar el directorio target en la raíz del proyecto
+/target
+
+# Ignorar el directorio target en todos los subdirectorios
+**/target
+/.idea

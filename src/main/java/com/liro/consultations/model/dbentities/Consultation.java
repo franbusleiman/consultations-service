@@ -14,11 +14,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Consultation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String details;
+    private String title;
+    private String amnsesis;
+    private String clinicalExamination;
+    private String presumptiveDiagnosis;
+    private String treatment;
+    private Double weight;
+    private Double temperature;
 
     @Column(nullable = false)
     private LocalDate localDate;

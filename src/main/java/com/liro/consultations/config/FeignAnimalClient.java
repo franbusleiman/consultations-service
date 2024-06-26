@@ -1,8 +1,12 @@
 package com.liro.consultations.config;
 
+import com.liro.consultations.dtos.RecordDTO;
+import com.liro.consultations.dtos.responses.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @FeignClient(name = "animals-service")
 public interface FeignAnimalClient {
@@ -13,4 +17,9 @@ public interface FeignAnimalClient {
                                         @RequestParam("vetEnabled") Boolean vetEnabled,
                                         @RequestParam("onlyVet") Boolean onlyVet,
                                         @RequestHeader(name = "Authorization") String token);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/records/")
+    ResponseEntity<ApiResponse> createRecord(@Valid @RequestBody RecordDTO recordDto,
+                                             @RequestHeader(name = "Authorization") String token);
+
 }

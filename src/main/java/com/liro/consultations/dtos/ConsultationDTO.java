@@ -18,4 +18,11 @@ public class ConsultationDTO {
     private Long animalId;
     private Long petClinicBranchId;
     private ConsultationType consultationType;
+    private String title;
+    private String amnsesis;
+    private String clinicalExamination;
+    private String presumptiveDiagnosis;
+    private String treatment;
+    private Double weight;
+    private Double temperature;
 }

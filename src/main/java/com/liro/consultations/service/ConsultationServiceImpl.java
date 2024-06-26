@@ -1,5 +1,6 @@
 package com.liro.consultations.service;
 
+import com.liro.consultations.dtos.RecordDTO;
 import com.liro.consultations.repositories.ConsultationRepository;
 import com.liro.consultations.config.FeignAnimalClient;
 import com.liro.consultations.dtos.ConsultationDTO;
@@ -7,6 +8,7 @@ import com.liro.consultations.dtos.mappers.ConsultationMapper;
 import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.exceptions.BadRequestException;
 import com.liro.consultations.model.dbentities.Consultation;
+import org.bouncycastle.asn1.cms.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.liro.consultations.util.Util.updateIfNotNull;
 
@@ -70,6 +73,16 @@ public class ConsultationServiceImpl implements ConsultationService {
             Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
 
             consultation.setLocalDate(LocalDate.now());
+
+            RecordDTO recordDTO = new RecordDTO();
+            recordDTO.setDate(LocalDateTime.now());
+            recordDTO.setDataString("Weight: " + consultationDTO.getWeight());
+            recordDTO.setRecordTypeId(3L);
+            recordDTO.setDetails(consultationDTO.getDetails());
+            recordDTO.setAnimalId(consultationDTO.getAnimalId());
+
+
+            feignAnimalClient.createRecord(recordDTO, token);
 
             return consultationMapper.ConsultationToConsultationResponse(consultationRepository.save(consultation));
         } else throw new BadRequestException("User has no permissions on animal");

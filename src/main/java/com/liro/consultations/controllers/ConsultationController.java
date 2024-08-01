@@ -4,6 +4,8 @@ import com.liro.consultations.dtos.ConsultationDTO;
 import com.liro.consultations.dtos.responses.ApiResponse;
 import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.service.ConsultationService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.net.URI;
 
 import static com.liro.consultations.util.Util.getUser;
@@ -34,6 +40,7 @@ public class ConsultationController {
         return ResponseEntity.ok(consultationService.getConsultationResponse(consultationId, token));
     }
 
+    @ApiPageable
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Page<ConsultationResponse>> getAll(@RequestParam("animalId") Long animalId,
                                                              Pageable pageable,
@@ -61,5 +68,15 @@ public class ConsultationController {
         consultationService.updateConsultation(consultationDto, consultationId, token);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "int", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "int", paramType = "query", value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "
+                    + "Default sort order is ascending. " + "Multiple sort criteria are supported.") })
+    @interface ApiPageable {
     }
 }

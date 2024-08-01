@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ConsultationMapper {
 
-    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "details", ignore = true)
     ConsultationResponse ConsultationToConsultationResponse(Consultation consultation);
 
 

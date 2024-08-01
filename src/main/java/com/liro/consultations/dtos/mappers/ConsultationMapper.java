@@ -6,11 +6,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
+
 @Mapper(componentModel = "spring")
 public interface ConsultationMapper {
 
+    @Mapping(target = "description", ignore = true)
     ConsultationResponse ConsultationToConsultationResponse(Consultation consultation);
 
 
     Consultation consultationDTOToConsultation(ConsultationDTO consultationDTO);
 }
+

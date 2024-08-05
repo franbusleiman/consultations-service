@@ -3,7 +3,6 @@ package com.liro.consultations.service;
 import com.liro.consultations.dtos.RecordDTO;
 import com.liro.consultations.dtos.UserDTO;
 import com.liro.consultations.dtos.responses.LastConsultationResponse;
-import com.liro.consultations.exceptions.NotFoundException;
 import com.liro.consultations.exceptions.ResourceNotFoundException;
 import com.liro.consultations.repositories.ConsultationRepository;
 import com.liro.consultations.config.FeignAnimalClient;
@@ -74,7 +73,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         LastConsultationResponse lastConsultationResponse = new LastConsultationResponse();
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDate(animalId, userDTO.getId()).orElseThrow(
+            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDateDesc(animalId, userDTO.getId()).orElseThrow(
                     () -> new ResourceNotFoundException("No queries have been found for the animal "+
                     animalId+", with the veterinarian" + userDTO.getId()));
 

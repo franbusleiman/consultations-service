@@ -15,5 +15,5 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 
     Long countByAnimalIdAndVetUserId(Long animalId, Long vetUserId);
 
-    Optional<Consultation> findTopByAnimalIdAndVetUserIdOrderByLocalDate(Long animalId, Long vetUserId);
+    Optional<Consultation> findTopByAnimalIdAndVetUserIdOrderByLocalDateDesc(Long animalId, Long vetUserId);
 }

@@ -3,6 +3,7 @@ package com.liro.consultations.service;
 import com.liro.consultations.dtos.RecordDTO;
 import com.liro.consultations.dtos.UserDTO;
 import com.liro.consultations.dtos.responses.LastConsultationResponse;
+import com.liro.consultations.exceptions.NotFoundException;
 import com.liro.consultations.repositories.ConsultationRepository;
 import com.liro.consultations.config.FeignAnimalClient;
 import com.liro.consultations.dtos.ConsultationDTO;
@@ -72,7 +73,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         LastConsultationResponse lastConsultationResponse = new LastConsultationResponse();
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDate(animalId, userDTO.getId());
+            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDate(animalId, userDTO.getId()).orElseThrow(null);
 
             lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetUserId(animalId, userDTO.getId()));
             lastConsultationResponse.setTitle(lastFound.getTitle());

@@ -10,4 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
 
     Page<Consultation> findAllByAnimalId(Long animalId, Pageable pageable );
+
+    Long countByAnimalIdAndVetUserId(Long animalId, Long vetUserId);
+
+    Consultation findLastByAnimalIdAndVetUserId(Long animalId, Long vetUserId);
 }

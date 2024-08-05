@@ -73,7 +73,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         LastConsultationResponse lastConsultationResponse = new LastConsultationResponse();
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDate(animalId, userDTO.getId()).orElseThrow(null);
+            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDate(animalId, userDTO.getId()).orElse(null);
 
             lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetUserId(animalId, userDTO.getId()));
             lastConsultationResponse.setTitle(lastFound.getTitle());

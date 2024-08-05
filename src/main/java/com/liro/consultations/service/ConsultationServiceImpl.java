@@ -72,9 +72,11 @@ public class ConsultationServiceImpl implements ConsultationService {
         LastConsultationResponse lastConsultationResponse = new LastConsultationResponse();
 
         if (response.getStatusCode().is2xxSuccessful()) {
+            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByPublicationDateDesc(animalId, userDTO.getId());
+
             lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetUserId(animalId, userDTO.getId()));
-            lastConsultationResponse.setTitle(consultationRepository.findLastByAnimalIdAndVetUserId(animalId, userDTO.getId()).getTitle());
-            lastConsultationResponse.setLastConsultationInDays(ChronoUnit.DAYS.between(consultationRepository.findLastByAnimalIdAndVetUserId(animalId, userDTO.getId()).getLocalDate(), LocalDate.now()));
+            lastConsultationResponse.setTitle(lastFound.getTitle());
+            lastConsultationResponse.setLastConsultationInDays(ChronoUnit.DAYS.between(lastFound.getLocalDate(), LocalDate.now()));
             return lastConsultationResponse;
         } else {
             throw new BadRequestException("User has no permissions on animal");

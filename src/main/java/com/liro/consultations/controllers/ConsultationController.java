@@ -3,6 +3,7 @@ package com.liro.consultations.controllers;
 import com.liro.consultations.dtos.ConsultationDTO;
 import com.liro.consultations.dtos.responses.ApiResponse;
 import com.liro.consultations.dtos.responses.ConsultationResponse;
+import com.liro.consultations.dtos.responses.LastConsultationResponse;
 import com.liro.consultations.service.ConsultationService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -46,6 +47,12 @@ public class ConsultationController {
                                                              Pageable pageable,
                                                              @RequestHeader(name = "Authorization",  required = false) String token) {
         return ResponseEntity.ok(consultationService.findAllByAnimalId(animalId, pageable, token));
+    }
+
+    @GetMapping(value = "/findLast", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<LastConsultationResponse> getLast(@RequestParam("animalId") Long animalId,
+                                                            @RequestHeader(name = "Authorization", required = false)String token){
+        return ResponseEntity.ok(consultationService.getLastConsultationResponse(animalId, token));
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})

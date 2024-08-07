@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 import com.liro.consultations.dtos.ConsultationDTO;
 import com.liro.consultations.model.enums.ConsultationType;
 
+import java.time.LocalDate;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +19,5 @@ import com.liro.consultations.model.enums.ConsultationType;
 public class ConsultationResponse extends ConsultationDTO {
 
     private Long id;
+    private LocalDate localDate;
 }

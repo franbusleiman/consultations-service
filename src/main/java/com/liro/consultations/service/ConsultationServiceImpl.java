@@ -83,7 +83,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 .date(LocalDateTime.now())
                 .dataString("Weight: " + consultationDTO.getWeight())
                 .recordTypeId(3L)
-                .details(consultationDTO.getDetails())
+                .details(null)
                 .animalId(consultationDTO.getAnimalId())
                 .build();
 

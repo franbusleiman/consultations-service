@@ -100,7 +100,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         RecordDTO recordDTO = RecordDTO.builder()
                 .date(LocalDateTime.now())
-                .dataString("Weight: " + consultationDTO.getWeight())
+                .dataString(String.valueOf(consultationDTO.getWeight()))
                 .recordTypeId(3L)
                 .details(null)
                 .animalId(consultationDTO.getAnimalId())

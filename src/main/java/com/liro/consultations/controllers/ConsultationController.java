@@ -21,6 +21,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.net.URI;
+import java.util.List;
 
 import static com.liro.consultations.util.Util.getUser;
 
@@ -66,6 +67,16 @@ public class ConsultationController {
 
         return ResponseEntity.created(location).body(
                 new ApiResponse(true, "Consultation created successfully"));
+    }
+
+    @PostMapping(value = "/migrate", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ApiResponse> migrateConsultations(@Valid @RequestBody List<ConsultationDTO> consultationDto,
+                                                          @RequestParam(name = "vetUserId") Long vetUserId)  {
+
+         consultationService.migrateConsultations(consultationDto, vetUserId);
+
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})

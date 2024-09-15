@@ -7,6 +7,9 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import com.liro.consultations.model.enums.ConsultationType;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -23,4 +26,5 @@ public class ConsultationDTO {
     private String treatment;
     private Double weight;
     private Double temperature;
+    private LocalDate localDate;
 }

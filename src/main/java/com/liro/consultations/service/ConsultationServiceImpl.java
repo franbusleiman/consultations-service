@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.liro.consultations.util.Util.getUser;
 
@@ -74,8 +76,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         if (response.getStatusCode().is2xxSuccessful()) {
             Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDateDesc(animalId, userDTO.getId()).orElseThrow(
-                    () -> new ResourceNotFoundException("No queries have been found for the animal "+
-                    animalId+", with the veterinarian" + userDTO.getId()));
+                    () -> new ResourceNotFoundException("No queries have been found for the animal " +
+                            animalId + ", with the veterinarian" + userDTO.getId()));
 
             lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetUserId(animalId, userDTO.getId()));
             lastConsultationResponse.setTitle(lastFound.getTitle());
@@ -109,6 +111,36 @@ public class ConsultationServiceImpl implements ConsultationService {
         feignAnimalClient.createRecord(recordDTO, token);
 
         return consultationMapper.ConsultationToConsultationResponse(consultationRepository.save(consultation));
+    }
+
+    @Override
+    public Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetUserId) {
+
+        List<RecordDTO> recordDTOs = new ArrayList<>();
+        consultationDTOs.forEach(consultationDTO -> {
+
+            Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
+            consultation.setVetUserId(vetUserId);
+
+            consultation.setLocalDate(LocalDate.now());
+
+            RecordDTO recordDTO = RecordDTO.builder()
+                    .date(consultationDTO.getLocalDate().atStartOfDay())
+                    .dataString(String.valueOf(consultationDTO.getWeight()))
+                    .recordTypeId(3L)
+                    .details(null)
+                    .animalId(consultationDTO.getAnimalId())
+                    .build();
+
+
+            consultationRepository.save(consultation);
+
+            recordDTOs.add(recordDTO);
+        });
+
+        feignAnimalClient.migrateRecords(recordDTOs, vetUserId);
+
+        return null;
     }
 
     @Override

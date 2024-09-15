@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @FeignClient(name = "animals-service")
 public interface FeignAnimalClient {
@@ -21,5 +22,9 @@ public interface FeignAnimalClient {
     @RequestMapping(method = RequestMethod.POST, value = "/records/")
     ResponseEntity<ApiResponse> createRecord(@Valid @RequestBody RecordDTO recordDto,
                                              @RequestHeader(name = "Authorization") String token);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/records/migrate")
+    ResponseEntity<ApiResponse> migrateRecords(@Valid @RequestBody List<RecordDTO> recordDto,
+                                               @RequestParam("vetUserId") Long vetUserId);
 
 }

@@ -7,6 +7,8 @@ import com.liro.consultations.dtos.responses.LastConsultationResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ConsultationService {
 
     Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token);
@@ -15,6 +17,9 @@ public interface ConsultationService {
     LastConsultationResponse getLastConsultationResponse(Long animalId, String token);
 
     ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token);
+
+    Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetUserId);
+
 
     void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token);
 }

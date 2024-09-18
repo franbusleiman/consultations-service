@@ -124,7 +124,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
             consultation.setLocalDate(LocalDate.now());
 
-            if(consultationDTO.getLocalDate()!=null){
+            if(consultationDTO.getLocalDate()!=null && consultationDTO.getWeight()!=null){
                 RecordDTO recordDTO = RecordDTO.builder()
                         .date(consultationDTO.getLocalDate().atStartOfDay())
                         .dataString(String.valueOf(consultationDTO.getWeight()))

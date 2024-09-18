@@ -124,18 +124,19 @@ public class ConsultationServiceImpl implements ConsultationService {
 
             consultation.setLocalDate(LocalDate.now());
 
-            RecordDTO recordDTO = RecordDTO.builder()
-                    .date(consultationDTO.getLocalDate().atStartOfDay())
-                    .dataString(String.valueOf(consultationDTO.getWeight()))
-                    .recordTypeId(3L)
-                    .details(null)
-                    .animalId(consultationDTO.getAnimalId())
-                    .build();
-
+            if(consultationDTO.getLocalDate()!=null){
+                RecordDTO recordDTO = RecordDTO.builder()
+                        .date(consultationDTO.getLocalDate().atStartOfDay())
+                        .dataString(String.valueOf(consultationDTO.getWeight()))
+                        .recordTypeId(3L)
+                        .details(null)
+                        .animalId(consultationDTO.getAnimalId())
+                        .build();
+                recordDTOs.add(recordDTO);
+            }
 
             consultationRepository.save(consultation);
 
-            recordDTOs.add(recordDTO);
         });
 
         feignAnimalClient.migrateRecords(recordDTOs, vetUserId);

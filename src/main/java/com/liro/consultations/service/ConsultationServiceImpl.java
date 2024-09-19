@@ -117,26 +117,29 @@ public class ConsultationServiceImpl implements ConsultationService {
     public Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetUserId) {
 
         List<RecordDTO> recordDTOs = new ArrayList<>();
-        consultationDTOs.forEach(consultationDTO -> {
+        consultationDTOs.stream().parallel().forEach(consultationDTO -> {
 
-            Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
-            System.out.println(consultationDTO.getDetails() + ", vet: " + vetUserId);
-            consultation.setVetUserId(vetUserId);
+            try {
+                Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
+                consultation.setVetUserId(vetUserId);
 
-            consultation.setLocalDate(LocalDate.now());
+                consultation.setLocalDate(LocalDate.now());
 
-            if(consultationDTO.getLocalDate()!=null && consultationDTO.getWeight()!=null){
-                RecordDTO recordDTO = RecordDTO.builder()
-                        .date(consultationDTO.getLocalDate().atStartOfDay())
-                        .dataString(String.valueOf(consultationDTO.getWeight()))
-                        .recordTypeId(3L)
-                        .details(null)
-                        .animalId(consultationDTO.getAnimalId())
-                        .build();
-                recordDTOs.add(recordDTO);
+                if (consultationDTO.getLocalDate() != null && consultationDTO.getWeight() != null) {
+                    RecordDTO recordDTO = RecordDTO.builder()
+                            .date(consultationDTO.getLocalDate().atStartOfDay())
+                            .dataString(String.valueOf(consultationDTO.getWeight()))
+                            .recordTypeId(3L)
+                            .details(null)
+                            .animalId(consultationDTO.getAnimalId())
+                            .build();
+                    recordDTOs.add(recordDTO);
+                }
+
+                consultationRepository.save(consultation);
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
-
-            consultationRepository.save(consultation);
 
         });
 

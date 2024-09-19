@@ -70,10 +70,10 @@ public class ConsultationController {
     }
 
     @PostMapping(value = "/migrate", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ApiResponse> migrateConsultations(@Valid @RequestBody List<ConsultationDTO> consultationDto,
-                                                          @RequestParam(name = "vetUserId") Long vetUserId)  {
+    public ResponseEntity<ApiResponse> migrateConsultations(@Valid @RequestBody List<ConsultationDTO> consultationDTOS,
+                                                            @RequestParam(name = "vetUserId") Long vetUserId)  {
 
-         consultationService.migrateConsultations(consultationDto, vetUserId);
+         consultationService.migrateConsultations(consultationDTOS, vetUserId);
 
 
         return ResponseEntity.ok().build();

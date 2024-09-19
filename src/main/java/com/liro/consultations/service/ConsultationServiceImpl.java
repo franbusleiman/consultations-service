@@ -123,7 +123,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
                 consultation.setVetUserId(vetUserId);
 
-                consultation.setLocalDate(LocalDate.now());
+                consultation.setLocalDate(consultationDTO.getLocalDate());
 
                 if (consultationDTO.getLocalDate() != null && consultationDTO.getWeight() != null) {
                     RecordDTO recordDTO = RecordDTO.builder()

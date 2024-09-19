@@ -120,6 +120,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultationDTOs.forEach(consultationDTO -> {
 
             Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
+            System.out.println(consultationDTO.getDetails() + ", vet: " + vetUserId);
             consultation.setVetUserId(vetUserId);
 
             consultation.setLocalDate(LocalDate.now());

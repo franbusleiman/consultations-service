@@ -100,15 +100,17 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setVetUserId(userDTO.getId());
         consultation.setLocalDate(LocalDate.now());
 
-        RecordDTO recordDTO = RecordDTO.builder()
-                .date(LocalDateTime.now())
-                .dataString(String.valueOf(consultationDTO.getWeight()))
-                .recordTypeId(3L)
-                .details(null)
-                .animalId(consultationDTO.getAnimalId())
-                .build();
+        if(consultationDTO.getWeight() !=null) {
+            RecordDTO recordDTO = RecordDTO.builder()
+                    .date(LocalDateTime.now())
+                    .dataString(String.valueOf(consultationDTO.getWeight()))
+                    .recordTypeId(3L)
+                    .details(null)
+                    .animalId(consultationDTO.getAnimalId())
+                    .build();
 
-        feignAnimalClient.createRecord(recordDTO, token);
+            feignAnimalClient.createRecord(recordDTO, token);
+        }
 
         return consultationMapper.ConsultationToConsultationResponse(consultationRepository.save(consultation));
     }

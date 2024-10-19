@@ -12,6 +12,7 @@ import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.exceptions.BadRequestException;
 import com.liro.consultations.exceptions.UnauthorizedException;
 import com.liro.consultations.model.dbentities.Consultation;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,13 +40,12 @@ public class ConsultationServiceImpl implements ConsultationService {
     ConsultationRepository consultationRepository;
 
     @Override
-    public Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token) {
-        UserDTO userDTO = getUser(token);
+    public Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token, Long clinicId) {
 
         return consultationRepository.findAllByAnimalId(animalId, pageable)
                 .map(consultation -> {
                     ConsultationResponse consultationResponse = consultationMapper.ConsultationToConsultationResponse(consultation);
-                    if (userDTO.getId().equals(consultation.getVetUserId())) {
+                    if (clinicId.equals(consultation.getVetClinicId())) {
                         consultationResponse.setDetails(consultation.getDetails());
                     }
                     return consultationResponse;
@@ -53,44 +53,43 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public ConsultationResponse getConsultationResponse(Long consultationId, String token) {
-        UserDTO userDTO = getUser(token);
+    public ConsultationResponse getConsultationResponse(Long consultationId, String token, Long clinidId) {
 
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
 
         ConsultationResponse consultationResponse = consultationMapper.ConsultationToConsultationResponse(consultation);
 
-        if (userDTO.getId().equals(consultation.getVetUserId())) {
+        if (clinidId.equals(consultation.getVetClinicId())) {
             consultationResponse.setDetails(consultation.getDetails());
         }
         return consultationResponse;
     }
 
     @Override
-    public LastConsultationResponse getLastConsultationResponse(Long animalId, String token) {
-        ResponseEntity<Void> response = feignAnimalClient.hasPermissions(animalId, false, false, true, false, token);
+    public LastConsultationResponse getLastConsultationResponse(Long animalId, String token, Long clinidId) {
 
         UserDTO userDTO = getUser(token);
         LastConsultationResponse lastConsultationResponse = new LastConsultationResponse();
 
-        if (response.getStatusCode().is2xxSuccessful()) {
-            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetUserIdOrderByLocalDateDesc(animalId, userDTO.getId()).orElseThrow(
+            Consultation lastFound = consultationRepository.findTopByAnimalIdAndVetClinicIdOrderByLocalDateDesc(animalId, clinidId).orElseThrow(
                     () -> new ResourceNotFoundException("No queries have been found for the animal " +
                             animalId + ", with the veterinarian" + userDTO.getId()));
 
-            lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetUserId(animalId, userDTO.getId()));
+            lastConsultationResponse.setTotalConsultations(consultationRepository.countByAnimalIdAndVetClinicId(animalId, clinidId));
             lastConsultationResponse.setTitle(lastFound.getTitle());
             lastConsultationResponse.setLastConsultationInDays(ChronoUnit.DAYS.between(lastFound.getLocalDate(), LocalDate.now()));
             return lastConsultationResponse;
-        } else {
-            throw new BadRequestException("User has no permissions on animal");
-        }
     }
 
     @Override
-    public ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token) {
-        UserDTO userDTO = getUser(token);
+    public ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token, Long clinicId) {
+
+       feignAnimalClient.hasPermissions(consultationDTO.getAnimalId(), false,
+                false, true, clinicId, token);
+
+
+            UserDTO userDTO = getUser(token);
 
         if (!userDTO.getRoles().contains("ROLE_VET")) {
             throw new UnauthorizedException("Consultation must be created by a vet");
@@ -99,6 +98,8 @@ public class ConsultationServiceImpl implements ConsultationService {
         Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
         consultation.setVetUserId(userDTO.getId());
         consultation.setLocalDate(LocalDate.now());
+        consultation.setVetClinicId(clinicId);
+
 
         if(consultationDTO.getWeight() !=null) {
             RecordDTO recordDTO = RecordDTO.builder()
@@ -116,13 +117,14 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetUserId) {
+    public Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId) {
 
         List<RecordDTO> recordDTOs = new ArrayList<>();
         consultationDTOs.stream().parallel().forEach(consultationDTO -> {
 
             try {
                 Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);
+                consultation.setVetClinicId(vetClinicId);
                 consultation.setVetUserId(vetUserId);
 
                 consultation.setLocalDate(consultationDTO.getLocalDate());
@@ -150,8 +152,10 @@ public class ConsultationServiceImpl implements ConsultationService {
         return null;
     }
 
+
+    //TODO
     @Override
-    public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token) {
+    public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId) {
         UserDTO userDTO = getUser(token);
 
         if (!userDTO.getRoles().contains("ROLE_VET")) {
@@ -160,6 +164,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
+
+
 
         // updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
         // updateIfNotNull(consultation::setDetails, consultationDto.getDetails());

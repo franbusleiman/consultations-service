@@ -38,28 +38,32 @@ public class ConsultationController {
 
     @GetMapping(value = "/{consultationId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ConsultationResponse> getConsultation(@PathVariable("consultationId") Long consultationId,
+                                                                @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                                 @RequestHeader(name = "Authorization",  required = false) String token ) {
-        return ResponseEntity.ok(consultationService.getConsultationResponse(consultationId, token));
+        return ResponseEntity.ok(consultationService.getConsultationResponse(consultationId, token, clinicId));
     }
 
     @ApiPageable
     @GetMapping(value = "/findAll", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Page<ConsultationResponse>> getAll(@RequestParam("animalId") Long animalId,
                                                              Pageable pageable,
+                                                             @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                              @RequestHeader(name = "Authorization",  required = false) String token) {
-        return ResponseEntity.ok(consultationService.findAllByAnimalId(animalId, pageable, token));
+        return ResponseEntity.ok(consultationService.findAllByAnimalId(animalId, pageable, token, clinicId));
     }
 
     @GetMapping(value = "/findLast", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LastConsultationResponse> getLast(@RequestParam("animalId") Long animalId,
+                                                            @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                             @RequestHeader(name = "Authorization", required = false)String token){
-        return ResponseEntity.ok(consultationService.getLastConsultationResponse(animalId, token));
+        return ResponseEntity.ok(consultationService.getLastConsultationResponse(animalId, token, clinicId));
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ApiResponse> createConsultation(@Valid @RequestBody ConsultationDTO consultationDto,
+                                                          @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                           @RequestHeader(name = "Authorization",  required = false) String token)  {
-        ConsultationResponse consultationResponse = consultationService.createConsultation(consultationDto, token);
+        ConsultationResponse consultationResponse = consultationService.createConsultation(consultationDto, token, clinicId);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/consultations/{consultationId}")
@@ -71,9 +75,10 @@ public class ConsultationController {
 
     @PostMapping(value = "/migrate", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ApiResponse> migrateConsultations(@Valid @RequestBody List<ConsultationDTO> consultationDTOS,
+                                                            @RequestParam("vetClinicId") Long vetClinicId,
                                                             @RequestParam(name = "vetUserId") Long vetUserId)  {
 
-         consultationService.migrateConsultations(consultationDTOS, vetUserId);
+         consultationService.migrateConsultations(consultationDTOS, vetClinicId, vetUserId);
 
 
         return ResponseEntity.ok().build();
@@ -82,8 +87,9 @@ public class ConsultationController {
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Void> updateConsultation(@Valid @RequestBody ConsultationDTO consultationDto,
                                             @RequestParam("consultationId") Long consultationId,
+                                                   @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                    @RequestHeader(name = "Authorization",  required = false) String token)  {
-        consultationService.updateConsultation(consultationDto, consultationId, token);
+        consultationService.updateConsultation(consultationDto, consultationId, token, clinicId);
 
         return ResponseEntity.ok().build();
     }

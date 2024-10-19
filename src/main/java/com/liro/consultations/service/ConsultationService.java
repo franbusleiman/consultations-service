@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface ConsultationService {
 
-    Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token);
+    Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token, Long clinidId);
 
-    ConsultationResponse getConsultationResponse(Long consultationId, String token);
-    LastConsultationResponse getLastConsultationResponse(Long animalId, String token);
+    ConsultationResponse getConsultationResponse(Long consultationId, String token, Long clinidId);
+    LastConsultationResponse getLastConsultationResponse(Long animalId, String token, Long clinidId);
 
-    ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token);
+    ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token, Long clinicId);
 
-    Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetUserId);
+    Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId);
 
 
-    void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token);
+    void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId);
 }

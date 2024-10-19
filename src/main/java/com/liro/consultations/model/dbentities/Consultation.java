@@ -27,6 +27,7 @@ public class Consultation {
     private Double temperature;
     private String details;
     private Long vetUserId;
+    private Long vetClinicId;
 
     @Column(nullable = false)
     private LocalDate localDate;

@@ -13,7 +13,7 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
 
     Page<Consultation> findAllByAnimalId(Long animalId, Pageable pageable );
 
-    Long countByAnimalIdAndVetUserId(Long animalId, Long vetUserId);
+    Long countByAnimalIdAndVetClinicId(Long animalId, Long vetClinicId);
 
-    Optional<Consultation> findTopByAnimalIdAndVetUserIdOrderByLocalDateDesc(Long animalId, Long vetUserId);
+    Optional<Consultation> findTopByAnimalIdAndVetClinicIdOrderByLocalDateDesc(Long animalId, Long vetClinicId);
 }

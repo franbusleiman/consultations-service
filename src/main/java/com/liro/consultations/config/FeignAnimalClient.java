@@ -21,6 +21,7 @@ public interface FeignAnimalClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/records/")
     ResponseEntity<ApiResponse> createRecord(@Valid @RequestBody RecordDTO recordDto,
+                                             @RequestHeader("clinicId") Long clinicId,
                                              @RequestHeader(name = "Authorization") String token);
 
     @RequestMapping(method = RequestMethod.POST, value = "/records/migrate")

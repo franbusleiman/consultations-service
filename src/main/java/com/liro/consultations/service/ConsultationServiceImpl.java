@@ -110,7 +110,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     .animalId(consultationDTO.getAnimalId())
                     .build();
 
-            feignAnimalClient.createRecord(recordDTO, token);
+            feignAnimalClient.createRecord(recordDTO, clinicId, token);
         }
 
         return consultationMapper.ConsultationToConsultationResponse(consultationRepository.save(consultation));

@@ -45,7 +45,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         return consultationRepository.findAllByAnimalId(animalId, pageable)
                 .map(consultation -> {
                     ConsultationResponse consultationResponse = consultationMapper.ConsultationToConsultationResponse(consultation);
-                    if (clinicId.equals(consultation.getVetClinicId())) {
+                    if (clinicId!=null && clinicId.equals(consultation.getVetClinicId())) {
                         consultationResponse.setDetails(consultation.getDetails());
                     }
                     return consultationResponse;
@@ -120,7 +120,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     public Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId) {
 
         List<RecordDTO> recordDTOs = new ArrayList<>();
-        consultationDTOs.stream().parallel().forEach(consultationDTO -> {
+       consultationDTOs.stream().parallel().forEach(consultationDTO -> {
 
             try {
                 Consultation consultation = consultationMapper.consultationDTOToConsultation(consultationDTO);

@@ -12,6 +12,7 @@ import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.exceptions.BadRequestException;
 import com.liro.consultations.exceptions.UnauthorizedException;
 import com.liro.consultations.model.dbentities.Consultation;
+import com.liro.consultations.util.Util;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -165,22 +166,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
 
-        if(userDTO.getId() == consultation.getVetUserId()){
-            if (consultationDto.getDetails() != null){
-                consultation.setDetails(consultationDto.getDetails());
-            }
+        if(userDTO.getId().equals(consultation.getVetUserId())){
+            Util.updateIfNotNull(consultation::setDetails , consultationDto.getDetails());
+            Util.updateIfNotNull(consultation::setAnimalId , consultationDto.getAnimalId());
+            Util.updateIfNotNull(consultation::setAmnsesis , consultationDto.getAmnsesis());
+            Util.updateIfNotNull(consultation::setClinicalExamination, consultationDto.getClinicalExamination());
+            Util.updateIfNotNull(consultation::setPresumptiveDiagnosis , consultationDto.getPresumptiveDiagnosis());
+            Util.updateIfNotNull(consultation::setTreatment , consultationDto.getTreatment());
+            Util.updateIfNotNull(consultation::setWeight , consultationDto.getWeight());
+            Util.updateIfNotNull(consultation::setTemperature , consultationDto.getTemperature());
+            Util.updateIfNotNull(consultation::setLocalDate , consultationDto.getLocalDate());
         }
 
-//        if (!userDTO.getRoles().contains("ROLE_VET")) {
-//            throw new UnauthorizedException("Consultation must be created by a vet");
-//        }
-//
-//
-
-
-
-        // updateIfNotNull(consultation::setConsultationType, consultationDto.getConsultationType());
-        // updateIfNotNull(consultation::setDetails, consultationDto.getDetails());
 
         consultationRepository.save(consultation);
     }

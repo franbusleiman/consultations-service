@@ -20,6 +20,5 @@ public interface ConsultationService {
 
     Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId);
 
-
     void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId);
 }

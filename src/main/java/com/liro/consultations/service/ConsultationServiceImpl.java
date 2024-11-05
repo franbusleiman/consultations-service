@@ -156,17 +156,18 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     //TODO
     @Override
-    public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId) {
+    public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinicId) {
 
         feignAnimalClient.hasPermissions(consultationDto.getAnimalId(), false,
-                false,true, clinidId, token);
+                false,true, clinicId, token);
 
         UserDTO userDTO = getUser(token);
 
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
 
-        if(userDTO.getId().equals(consultation.getVetUserId())){
+        if(clinicId.equals(consultation.getVetClinicId())){
+
             Util.updateIfNotNull(consultation::setDetails , consultationDto.getDetails());
             Util.updateIfNotNull(consultation::setAnimalId , consultationDto.getAnimalId());
             Util.updateIfNotNull(consultation::setAmnsesis , consultationDto.getAmnsesis());
@@ -177,7 +178,6 @@ public class ConsultationServiceImpl implements ConsultationService {
             Util.updateIfNotNull(consultation::setTemperature , consultationDto.getTemperature());
             Util.updateIfNotNull(consultation::setLocalDate , consultationDto.getLocalDate());
         }
-
 
         consultationRepository.save(consultation);
     }

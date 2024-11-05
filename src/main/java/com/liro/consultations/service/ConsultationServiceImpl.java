@@ -177,7 +177,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             Util.updateIfNotNull(consultation::setWeight , consultationDto.getWeight());
             Util.updateIfNotNull(consultation::setTemperature , consultationDto.getTemperature());
             Util.updateIfNotNull(consultation::setLocalDate , consultationDto.getLocalDate());
-        }
+        }else throw new BadRequestException("You do not have permission to modify the consultation!!");
 
         consultationRepository.save(consultation);
     }

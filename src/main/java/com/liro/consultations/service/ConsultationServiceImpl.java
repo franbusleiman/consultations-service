@@ -156,14 +156,26 @@ public class ConsultationServiceImpl implements ConsultationService {
     //TODO
     @Override
     public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId) {
-        UserDTO userDTO = getUser(token);
 
-        if (!userDTO.getRoles().contains("ROLE_VET")) {
-            throw new UnauthorizedException("Consultation must be created by a vet");
-        }
+        feignAnimalClient.hasPermissions(consultationDto.getAnimalId(), false,
+                false,true, clinidId, token);
+
+        UserDTO userDTO = getUser(token);
 
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
+
+        if(userDTO.getId() == consultation.getVetUserId()){
+            if (consultationDto.getDetails() != null){
+                consultation.setDetails(consultationDto.getDetails());
+            }
+        }
+
+//        if (!userDTO.getRoles().contains("ROLE_VET")) {
+//            throw new UnauthorizedException("Consultation must be created by a vet");
+//        }
+//
+//
 
 
 

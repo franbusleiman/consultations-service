@@ -19,5 +19,7 @@ import java.time.LocalDate;
 public class ConsultationResponse extends ConsultationDTO {
 
     private Long id;
+    private Long vetUserId;
     private LocalDate localDate;
+
 }

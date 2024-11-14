@@ -168,6 +168,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         if(clinicId.equals(consultation.getVetClinicId())){
 
+            Util.updateIfNotNull(consultation::setTitle, consultationDto.getTitle());
             Util.updateIfNotNull(consultation::setDetails , consultationDto.getDetails());
             Util.updateIfNotNull(consultation::setAnimalId , consultationDto.getAnimalId());
             Util.updateIfNotNull(consultation::setAmnsesis , consultationDto.getAmnsesis());

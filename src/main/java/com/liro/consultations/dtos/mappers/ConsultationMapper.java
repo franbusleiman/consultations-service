@@ -15,5 +15,7 @@ public interface ConsultationMapper {
 
 
     Consultation consultationDTOToConsultation(ConsultationDTO consultationDTO);
+
+    void updateConsultationFromConsultationDTO(ConsultationDTO consultationDTO, Consultation consultation);
 }
 

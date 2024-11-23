@@ -167,17 +167,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
 
         if(clinicId.equals(consultation.getVetClinicId())){
-
-            Util.updateIfNotNull(consultation::setTitle, consultationDto.getTitle());
-            Util.updateIfNotNull(consultation::setDetails , consultationDto.getDetails());
-            Util.updateIfNotNull(consultation::setAnimalId , consultationDto.getAnimalId());
-            Util.updateIfNotNull(consultation::setAmnsesis , consultationDto.getAmnsesis());
-            Util.updateIfNotNull(consultation::setClinicalExamination, consultationDto.getClinicalExamination());
-            Util.updateIfNotNull(consultation::setPresumptiveDiagnosis , consultationDto.getPresumptiveDiagnosis());
-            Util.updateIfNotNull(consultation::setTreatment , consultationDto.getTreatment());
-            Util.updateIfNotNull(consultation::setWeight , consultationDto.getWeight());
-            Util.updateIfNotNull(consultation::setTemperature , consultationDto.getTemperature());
-            Util.updateIfNotNull(consultation::setLocalDate , consultationDto.getLocalDate());
+            consultationMapper.updateConsultationFromConsultationDTO(consultationDto, consultation);
         }else throw new BadRequestException("You do not have permission to modify the consultation!!");
 
         consultationRepository.save(consultation);

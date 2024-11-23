@@ -4,7 +4,7 @@ import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.model.dbentities.Consultation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
+import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring")
@@ -16,6 +16,6 @@ public interface ConsultationMapper {
 
     Consultation consultationDTOToConsultation(ConsultationDTO consultationDTO);
 
-    void updateConsultationFromConsultationDTO(ConsultationDTO consultationDTO, Consultation consultation);
+    void updateConsultationFromConsultationDTO(ConsultationDTO consultationDTO, @MappingTarget Consultation consultation);
 }
 

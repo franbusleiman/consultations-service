@@ -161,13 +161,12 @@ public class ConsultationServiceImpl implements ConsultationService {
         feignAnimalClient.hasPermissions(consultationDto.getAnimalId(), false,
                 false,true, clinicId, token);
 
-        UserDTO userDTO = getUser(token);
 
         Consultation consultation = consultationRepository.findById(consultationId)
                 .orElseThrow(() -> new BadRequestException("Consultation not found"));
 
         if(clinicId.equals(consultation.getVetClinicId())){
-            consultationMapper.updateConsultationFromConsultationDTO(consultationDto, consultation);
+             consultationMapper.updateConsultationFromConsultationDTO(consultationDto, consultation);
         }else throw new BadRequestException("You do not have permission to modify the consultation!!");
 
         consultationRepository.save(consultation);

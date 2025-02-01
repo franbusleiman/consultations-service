@@ -31,7 +31,8 @@ public class Consultation {
 
     @Column(nullable = false)
     private LocalDate localDate;
-
+    @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Rp rp;
     @Column(nullable = false)
     private Long animalId;
 }

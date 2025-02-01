@@ -27,4 +27,6 @@ public class ConsultationDTO {
     private Double weight;
     private Double temperature;
     private LocalDate localDate;
+    private RpDTO rp;
+
 }

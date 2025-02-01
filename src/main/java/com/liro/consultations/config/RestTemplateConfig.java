@@ -1,5 +1,6 @@
 package com.liro.consultations.config;
 
+import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +41,7 @@ public class RestTemplateConfig {
 
     @Value(value = "${auth.server}")
     public String AUTH_SERVER;
+
 
 
     @Bean

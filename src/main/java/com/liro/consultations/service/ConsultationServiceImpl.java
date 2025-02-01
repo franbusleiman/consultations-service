@@ -4,6 +4,7 @@ import com.liro.consultations.dtos.RecordDTO;
 import com.liro.consultations.dtos.UserDTO;
 import com.liro.consultations.dtos.responses.LastConsultationResponse;
 import com.liro.consultations.exceptions.ResourceNotFoundException;
+import com.liro.consultations.model.dbentities.Rp;
 import com.liro.consultations.repositories.ConsultationRepository;
 import com.liro.consultations.config.FeignAnimalClient;
 import com.liro.consultations.dtos.ConsultationDTO;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,7 +49,11 @@ public class ConsultationServiceImpl implements ConsultationService {
         return consultationRepository.findAllByAnimalId(animalId, pageable)
                 .map(consultation -> {
                     ConsultationResponse consultationResponse = consultationMapper.ConsultationToConsultationResponse(consultation);
+
+
+                    System.out.println("paso");
                     if (clinicId!=null && clinicId.equals(consultation.getVetClinicId())) {
+                        System.out.println("entro");
                         consultationResponse.setDetails(consultation.getDetails());
                     }
                     return consultationResponse;
@@ -83,14 +90,14 @@ public class ConsultationServiceImpl implements ConsultationService {
             return lastConsultationResponse;
     }
 
+    @Transactional
     @Override
     public ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token, Long clinicId) {
 
        feignAnimalClient.hasPermissions(consultationDTO.getAnimalId(), false,
                 false, true, clinicId, token);
 
-
-            UserDTO userDTO = getUser(token);
+       UserDTO userDTO = getUser(token);
 
         if (!userDTO.getRoles().contains("ROLE_VET")) {
             throw new UnauthorizedException("Consultation must be created by a vet");
@@ -114,8 +121,23 @@ public class ConsultationServiceImpl implements ConsultationService {
             feignAnimalClient.createRecord(recordDTO, clinicId, token);
         }
 
-        return consultationMapper.ConsultationToConsultationResponse(consultationRepository.save(consultation));
+        if (consultationDTO.getRp() != null) {
+            Rp rp = Rp.builder()
+                    .treatments(consultationDTO.getRp().getTreatments())
+                    .needToObserve(consultationDTO.getRp().getNeedToObserve())
+                    .control(consultationDTO.getRp().getControl())
+                    .consultation(consultation) // Link RP to Consultation
+                    .build();
+
+            consultation.setRp(rp);
+        }
+
+        Consultation savedConsultation = consultationRepository.save(consultation);
+
+        // Return response
+        return consultationMapper.ConsultationToConsultationResponse(savedConsultation);
     }
+
 
     @Override
     public Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId) {
@@ -134,7 +156,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     RecordDTO recordDTO = RecordDTO.builder()
                             .date(consultationDTO.getLocalDate().atStartOfDay())
                             .dataString(String.valueOf(consultationDTO.getWeight()))
-                            .recordTypeId(3L)
+                            .recordTypeId(25L)
                             .details(null)
                             .animalId(consultationDTO.getAnimalId())
                             .build();

@@ -15,12 +15,9 @@ import com.liro.consultations.exceptions.BadRequestException;
 import com.liro.consultations.exceptions.UnauthorizedException;
 import com.liro.consultations.model.dbentities.Consultation;
 import com.liro.consultations.repositories.RpRepository;
-import com.liro.consultations.util.Util;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -205,5 +202,28 @@ public class ConsultationServiceImpl implements ConsultationService {
         } else throw new BadRequestException("You do not have permission to modify the consultation!!");
 
         consultationRepository.save(consultation);
+    }
+
+    @Override
+    public void deleteConsultation(Long consultationId, Long clinicId, String token){
+
+        Consultation consultation = consultationRepository.findById(consultationId)
+                .orElseThrow(() -> new BadRequestException("Consultation not found"));
+
+        feignAnimalClient.hasPermissions(consultation.getAnimalId(), false,
+                true, false, clinicId, token);
+
+        if (clinicId.equals(consultation.getVetClinicId())) {
+            consultationRepository.delete(consultation);
+        } else throw new BadRequestException("You do not have permission to modify the consultation!!");
+
+
+    }
+
+    @Override
+    public void deleteAllConsultationsByAnimalId(Long animalId, Long clinicId){
+
+            consultationRepository.deleteByAnimalId(animalId);
+
     }
 }

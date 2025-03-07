@@ -23,7 +23,12 @@ public interface ConsultationService {
 
     ConsultationResponse createConsultation(ConsultationDTO consultationDTO, String token, Long clinicId);
 
-    Void migrateConsultations(List<ConsultationDTO> consultationDTOs,Long vetClinicId,  Long vetUserId);
+    Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetClinicId, Long vetUserId);
 
     void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinidId);
+
+    void deleteConsultation(Long consultationId, Long clinicId, String token);
+
+    void deleteAllConsultationsByAnimalId(Long animalId, Long clinicId);
+
 }

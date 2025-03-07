@@ -101,6 +101,21 @@ public class ConsultationController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(value = "/{consultationId}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> deleteConsultation(@PathVariable("consultationId") Long consultationId,
+                                                   @RequestHeader("clinicId") Long clinicId,
+                                                   @RequestHeader(value = "Authorization", required = false) String token){
+        consultationService.deleteConsultation(consultationId, clinicId, token);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Void> deleteAllConsultationsByAnimalId(@RequestParam("animalId") Long animalId,
+                                                   @RequestHeader("clinicId") Long clinicId){
+        consultationService.deleteAllConsultationsByAnimalId(animalId, clinicId);
+        return ResponseEntity.ok().build();
+    }
+
     @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @ApiImplicitParams({

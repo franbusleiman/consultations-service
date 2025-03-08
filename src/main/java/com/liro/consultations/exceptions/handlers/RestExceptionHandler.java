@@ -147,6 +147,7 @@ public class RestExceptionHandler{
         }
     }
 
+    
     private String extractFeignCode(FeignException ex) {
         try {
             // Extraer el código del error desde el JSON de Feign (si existe)

@@ -4,6 +4,8 @@ import com.liro.consultations.dtos.ConsultationDTO;
 import com.liro.consultations.dtos.responses.ApiResponse;
 import com.liro.consultations.dtos.responses.ConsultationResponse;
 import com.liro.consultations.dtos.responses.LastConsultationResponse;
+import com.liro.consultations.dtos.responses.RpResponse;
+import com.liro.consultations.model.dbentities.Rp;
 import com.liro.consultations.service.ConsultationService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -57,6 +59,11 @@ public class ConsultationController {
                                                             @RequestHeader(name = "clinicId", required = false) Long clinicId,
                                                             @RequestHeader(name = "Authorization", required = false)String token){
         return ResponseEntity.ok(consultationService.getLastConsultationResponse(animalId, token, clinicId));
+    }
+
+    @PutMapping(value = "/controls", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<RpResponse>> getNextsControls(@RequestBody List<Long> animalIds){
+        return ResponseEntity.ok(consultationService.getNextControls(animalIds));
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})

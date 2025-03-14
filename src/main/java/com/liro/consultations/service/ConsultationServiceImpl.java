@@ -49,6 +49,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Autowired
     RpRepository rpRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public Page<ConsultationResponse> findAllByAnimalId(Long animalId, Pageable pageable, String token, Long clinicId) {
 
@@ -66,6 +67,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 });
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ConsultationResponse getConsultationResponse(Long consultationId, String token, Long clinidId) {
 
@@ -80,6 +82,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         return consultationResponse;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<RpResponse> getNextControls(List<Long> animalIds) {
         LocalDateTime nextDay = LocalDate.now().plusDays(1).atStartOfDay();
@@ -87,6 +90,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 .stream().map(rp -> consultationMapper.rpToRpResponse(rp)).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public LastConsultationResponse getLastConsultationResponse(Long animalId, String token, Long clinidId) {
 
@@ -152,6 +156,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
 
+    @Transactional
     @Override
     public Void migrateConsultations(List<ConsultationDTO> consultationDTOs, Long vetClinicId, Long vetUserId) {
 
@@ -190,6 +195,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
 
     //TODO
+    @Transactional
     @Override
     public void updateConsultation(ConsultationDTO consultationDto, Long consultationId, String token, Long clinicId) {
 

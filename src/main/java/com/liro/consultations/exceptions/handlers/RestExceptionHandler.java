@@ -73,12 +73,21 @@ public class RestExceptionHandler{
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({org.hibernate.exception.ConstraintViolationException.class, DataIntegrityViolationException.class})
-    protected ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, DataIntegrityViolationException dataEx) {
+    @ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolation1(ConstraintViolationException ex) {
 
         log.error("{} error. Message: {}", VALIDATION_ERROR, ex.getMessage());
         return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, ex.getMessage(), VALIDATION_ERROR));
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler( DataIntegrityViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolation2(DataIntegrityViolationException dataEx) {
+
+        log.error("{} error. Message: {}", VALIDATION_ERROR, dataEx.getMessage());
+        return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, dataEx.getMessage(), VALIDATION_ERROR));
+    }
+
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
